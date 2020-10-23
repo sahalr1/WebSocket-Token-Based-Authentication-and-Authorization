@@ -3,6 +3,7 @@ import { JhiWebSocketService } from '../service/web-socket/jhi-websocket-service
 import { AuthService } from '../service/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private websocketService : JhiWebSocketService,
     private authenticationService: AuthService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private router: Router) { }
 json;
   ngOnInit() {
     const currentUser = this.authenticationService.currentUserValue;
@@ -30,6 +32,16 @@ json;
      }
    );
 
+
+  }
+
+  logout()
+  {
+    console.log("Logout+++++++++++++");
+    this.authenticationService.logout();
+
+    this.websocketService.disconnect();
+    this.router.navigate(['/login']);
 
   }
 
